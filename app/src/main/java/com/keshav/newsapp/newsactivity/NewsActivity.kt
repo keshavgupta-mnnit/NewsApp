@@ -26,11 +26,11 @@ class NewsActivity : AppCompatActivity() {
     }
 
     private fun requestNews() {
-        if (this.isNetworkAvailable()) {
+//        if (this.isNetworkAvailable()) {
             viewModel.getNews()
-        } else {
-            noInternet()
-        }
+//        } else {
+//            noInternet()
+//        }
     }
 
     private fun noInternet() {
