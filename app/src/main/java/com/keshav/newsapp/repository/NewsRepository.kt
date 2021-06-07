@@ -18,7 +18,7 @@ class NewsRepository(
     //    Need to Optimise this as it called again and again which stores duplicate data, since there is no key from api side
     override fun getNews(): Observable<List<NewsArticle>> {
         return persistenceManager.getNews().doOnNext {
-            refreshDB()
+//            refreshDB()
         }
     }
 
