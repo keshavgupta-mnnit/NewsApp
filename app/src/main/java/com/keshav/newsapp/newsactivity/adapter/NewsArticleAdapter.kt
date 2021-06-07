@@ -9,12 +9,14 @@ import com.keshav.newsapp.R
 import com.keshav.newsapp.repository.datamodels.NewsArticle
 import kotlinx.android.synthetic.main.itemview_articles.view.*
 
-class NewsArticleAdapter : RecyclerView.Adapter<NewsArticleAdapter.NewsArticleViewHolder>() {
+class NewsArticleAdapter(private val onNewArticleSelected: (NewsArticle) -> Unit) :
+    RecyclerView.Adapter<NewsArticleAdapter.NewsArticleViewHolder>() {
     private var newsArticleList: MutableList<NewsArticle> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsArticleViewHolder {
         return NewsArticleViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.itemview_articles, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.itemview_articles, parent, false),
+            onNewArticleSelected
         )
     }
 
@@ -31,12 +33,18 @@ class NewsArticleAdapter : RecyclerView.Adapter<NewsArticleAdapter.NewsArticleVi
         notifyDataSetChanged()
     }
 
-    class NewsArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class NewsArticleViewHolder(
+        itemView: View,
+        private val onNewArticleSelected: (NewsArticle) -> Unit
+    ) : RecyclerView.ViewHolder(itemView) {
         fun bindModel(newArticle: NewsArticle) {
             itemView.newsTitle.text = newArticle.title
             itemView.newsSource.text = newArticle.source.name
             itemView.newsDate.text = newArticle.publishedAt
             Glide.with(itemView).load(newArticle.urlToImage).into(itemView.news_image)
+            itemView.setOnClickListener {
+                onNewArticleSelected(newArticle)
+            }
         }
 
     }
